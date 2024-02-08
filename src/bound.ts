@@ -1,11 +1,11 @@
 import p5 from "p5";
 
-const plate = {
-	width: 100,
-	height: 13,
-	y: 500,
-	x: 0,
-};
+// const plate = {
+// 	width: 100,
+// 	height: 13,
+// 	y: 500,
+// 	x: 0,
+// };
 
 let ball = {
 	radius: 7,
@@ -22,21 +22,17 @@ const screen = {
 	height: 600,
 };
 
-const fps = 40;
+const fps = 60;
 
 const sketch = (p: p5) => {
 	p.setup = () => {
 		p.createCanvas(screen.width, screen.height);
 		p.frameRate(fps);
 		p.angleMode(p.DEGREES);
-		ball.y = plate.y - 5;
 	};
 
 	p.draw = () => {
 		p.background(100);
-
-		plate.x = p.constrain(p.mouseX, 0, screen.width - plate.width);
-		p.rect(plate.x, plate.y, plate.width, plate.height);
 
 		if (ball.isFlying) {
 			ball.x += p.cos(ball.angle) * ball.vx;
@@ -49,11 +45,8 @@ const sketch = (p: p5) => {
 				ball.vy *= -1;
 			}
 		} else {
-			ball.x = p.constrain(
-				p.mouseX + plate.width / 2,
-				0,
-				screen.width - plate.width / 2,
-			);
+			ball.x = p.constrain(p.mouseX, 0, screen.width - ball.radius);
+			ball.y = p.constrain(p.mouseY, 0, screen.height - ball.radius);
 		}
 
 		ball.y = p.constrain(ball.y, 0 + ball.radius, screen.height);
